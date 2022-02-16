@@ -45,24 +45,35 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     # && bash /tmp/library-scripts/aws-cli.sh 2>&1 \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-RUN sudo apt-get autoclean
 
 # RUN useradd -ms /bin/bash $env_user_name
 # USER $env_user_name
 # WORKDIR /home/$env_user_name
 
 # [Choice] Node.js version: none, lts/*, 16, 14, 12, 10
-ARG NODE_VERSION="lts/*"
-ENV NVM_DIR=/usr/local/share/nvm
-ENV NVM_SYMLINK_CURRENT=true \
-    PATH=${NVM_DIR}/current/bin:${PATH}
-RUN bash /tmp/library-scripts/node-debian.sh "${NVM_DIR}" "${NODE_VERSION}" "${USERNAME}" \
-    && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+# ARG NODE_VERSION="lts/*"
+# ENV NVM_DIR=/usr/local/share/nvm
+# ENV NVM_SYMLINK_CURRENT=true \
+#     PATH=${NVM_DIR}/current/bin:${PATH}
+# RUN bash /tmp/library-scripts/node-debian.sh "${NVM_DIR}" "${NODE_VERSION}" "${USERNAME}" \
+#     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+
+ENV NODE_VERSION=16.13.0
+RUN apt-get install -y curl
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+ENV NVM_DIR=/root/.nvm
+RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
+ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+RUN node --version
+RUN npm --version
 
 
 RUN pip3 install aws-sam-cli 2>&1
 RUN pip3 install pipenv 2>&1
 # Install global node modules
+RUN npm install -g npm@8.5.0
 RUN npm install -g pnpm@6.31.0 2>&1
 RUN npm install -g aws-cdk@1.127.0 cdk-assume-role-credential-plugin@1.4.0 2>&1
 RUN npm install -g snyk 2>&1

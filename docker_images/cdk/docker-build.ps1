@@ -8,5 +8,5 @@ docker container prune -f
 docker system prune
 docker system df
 docker builder prune
-docker image prune -a 
+docker image prune -a
 
