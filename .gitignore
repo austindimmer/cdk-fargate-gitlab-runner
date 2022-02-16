@@ -146,3 +146,7 @@ package-lock.json
 yarn.lock
 cdk.out/*
 .cdk.staging
+
+.aws
+
+python-ignored.ps1

@@ -1,0 +1,115 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.162.0/containers/javascript-node
+{
+  "name": "Gitlab-infra",
+  "build": {
+    "dockerfile": "Dockerfile",
+    // Update 'VARIANT' to pick a Node version: 10, 12, 14
+    // "args": { "VARIANT": "14" }
+    "context": "..",
+    "args": {
+      // Update 'VARIANT' to pick a Python version: 3, 3.6, 3.7, 3.8, 3.9
+      "VARIANT": "3.9.6",
+      // Options
+      "INSTALL_NODE": "true",
+      "NODE_VERSION": "16.14.0"
+    }
+  },
+  "runArgs": [
+    "--init",
+    "--privileged"
+  ],
+  "overrideCommand": false,
+  // Add the IDs of extensions you want installed when the container is created.
+  "extensions": [
+    "adambaldwin.vscode-nsp",
+    "amazonwebservices.aws-toolkit-vscode",
+    "davidanson.vscode-markdownlint",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "github.copilot",
+    "GitLab.gitlab-workflow",
+    "gruntfuggly.triggertaskonsave",
+    "janisdd.vscode-edit-csv",
+    "ms-azuretools.vscode-docker",
+    "ms-kubernetes-tools.vscode-kubernetes-tools",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-toolsai.jupyter",
+    "ms-toolsai.jupyter-keymap",
+    "ms-vscode.powershell",
+    "orta.vscode-jest",
+    "redhat.vscode-xml",
+    "redhat.vscode-yaml",
+    "sonarsource.sonarlint-vscode",
+    "tomoki1207.pdf",
+    "firsttris.vscode-jest-runner",
+    "mhutchie.git-graph"
+  ],
+  // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+  "remoteUser": "node",
+  "mounts": [
+    "source=Gitlab-AWS_Creds,target=/home/node/.aws,type=volume",
+    "source=Gitlab-build,target=/workspaces/cdk-fargate-gitlab-runner/build,type=volume",
+    "source=Gitlab-node_modules,target=/workspaces/cdk-fargate-gitlab-runner/node_modules,type=volume",
+    "source=Gitlab-pnpm-store,target=/workspaces/cdk-fargate-gitlab-runner/.pnpm-store,type=volume",
+    "source=Gitlab-BashHistory,target=/commandhistory,type=volume",
+    "source=Gitlab-VsCode-Extensions,target=/home/node/.vscode-server/extensions,type=volume",
+    // And/or for VS Code Insiders
+    "source=Gitlab-VsCode-Extensions-Insiders,target=/home/node/.vscode-server-insiders/extensions,type=volume",
+    "source=Gitlab-minikube-var-lib-docker,target=/var/lib/docker,type=volume",
+    "source=Gitlab-minikube-config,target=/home/vscode/.minikube,type=volume"
+  ],
+  // Use 'postCreateCommand' to run commands after the container is created.
+  "postCreateCommand": "sudo chown node /workspaces/cdk-fargate-gitlab-runner/.devcontainer/docker-entrypoint.sh && . /workspaces/cdk-fargate-gitlab-runner/.devcontainer/docker-entrypoint.sh",
+  // "postStartCommand": "sudo chown node docker-entrypoint.sh && . docker-entrypoint.sh",
+  // "postAttachCommand": "sudo chown node /workspaces/cdk-fargate-gitlab-runner/.devcontainer/docker-entrypoint.sh && . /workspaces/cdk-fargate-gitlab-runner/.devcontainer/docker-entrypoint.sh",
+  // Set *default* container specific settings.json values on container create.
+  "settings": {
+    "workbench.colorTheme": "Night Owl",
+    // https://jakeginnivan.medium.com/vscode-jest-setup-d50dc0062ab9
+    "jestrunner.debugOptions": {
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "smartStep": true
+    },
+    "jestrunner.jestPath": "node_modules/jest/bin/jest.js",
+    "python.analysis.extraPaths": [
+      "/home/node/.conda/envs/aws-ecr/lib/python3.8/site-packages"
+    ],
+    "python.pythonPath": "/opt/conda/bin/python",
+    "python.languageServer": "Pylance",
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.formatting.autopep8Path": "/opt/conda/bin/autopep8",
+    "python.formatting.yapfPath": "/opt/conda/bin/yapf",
+    "python.linting.flake8Path": "/opt/conda/bin/flake8",
+    "python.linting.pycodestylePath": "/opt/conda/bin/pycodestyle",
+    "python.linting.pydocstylePath": "/opt/conda/bin/pydocstyle",
+    "python.linting.pylintPath": "/opt/conda/bin/pylint",
+    "terminal.integrated.allowChords": false,
+    "terminal.integrated.drawBoldTextInBrightColors": false,
+    "terminal.integrated.experimentalLinkProvider": false,
+    "terminal.integrated.rendererType": "auto",
+    "terminal.integrated.profiles.windows": {
+      "PowerShell": {
+        "source": "PowerShell",
+        "args": [
+          "-NoProfile"
+        ]
+      }
+    },
+    "terminal.integrated.profiles.linux": {
+      "zsh (login)": {
+        "path": "zsh",
+        "args": [
+          "-l"
+        ]
+      }
+    },
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "terminal.integrated.defaultProfile.linux": "zsh"
+  },
+  "shutdownAction": "stopContainer"
+}

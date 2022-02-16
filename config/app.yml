@@ -1,0 +1,31 @@
+---
+# Gitlab fargate runner stack parameters
+app_name: Gitlabrunner
+bastion:
+  gitlab_runner_version: "14.7.0" 
+  desired_count: 1 #Default 1
+  cpu: "1024" # put here the cpu size of the Fargate task definition
+  memory: "2048" # put here the memory size of the Fargate task definition
+  gitlab_server: gitlab.com # modify with gitlab server
+  concurrent_jobs: 2 # put here the desired concurent jobs
+  default_ssh_username: root
+  gitlab_runner_token_secret_name: GitlabSecretToken # Put here the name of the gitlab tokensecret name stored in secret manager
+  log_group_name: /Gitlab/Runner/ # Name of the log group Default: "/Gitlab/Runners/"
+  runner_log_output_limit: "4096"
+  runner_tags: "cdk,infra" # put here liset of tags of gitlab runner
+  VpcId: vpc-08f9a1117f6835d92 # Your VpcID
+  stack_name: GitlabrunnerBastionStack  #Name of your Cloudformation Stack 
+task_definition:
+  gitlab_runner_version: "14.7.0"
+  cpu: "1024" # put here the cpu size of the Fargate task definition
+  docker_image_name: cdk # put here the defaul docker image to use
+  managed_policies: [] # Put here a managed policy to use at gitlab job execution. Default to None
+  memory: "2048" # put here the memory size of the Fargate task definition
+  iam_policy_template: /workspaces/cdk-fargate-gitlab-runner/config/policy.json.j2 # path to a .j2 template policy to add to task_definition execution role. Default to None
+  log_group_name: /Gitlab/Runner/CdkDockerImageTaskDefinition/ # Name of the log group Default: "/Gitlab/TaskDefinitions/{docker_image_name}/"
+  stack_name: CdkDockerImageTaskDefinitionStack #Name of your Cloudformation Stack 
+tags: # Put tags as key: value pair
+  ProjectName: gitlab-runners-cdk
+  Project: gitlab-runners-cdk
+  CostCenter: foundation
+...
