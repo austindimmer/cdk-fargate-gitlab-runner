@@ -21,7 +21,7 @@ pipenv shell
 pip install -r requirements.txt
 # start docker service , it is used to build image
 
-pipenv run cdk synth  --all 
+pipenv run cdk synth  --all
 pipenv run cdk deploy --all
 
 pipenv run cdk deploy -c DockerImageName=cdk -c Memory=2048 -c CPU=1024  cdkTaskDefinitionStack
