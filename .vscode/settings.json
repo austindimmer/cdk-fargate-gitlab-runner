@@ -1,0 +1,103 @@
+{
+    "deepscan.enable": true,
+    "files.exclude": {
+        "**/.git": true,
+        "**/node_modules": true,
+        "**/.pnpm-store": true,
+        "**/.DS_Store": true,
+        // "**/*.js": {
+        //     "when": "$(basename).ts"
+        // }, 
+        // "**/*.d.ts": {
+        //     "when": "$(basename).ts"
+        // }
+    },
+    "editor.codeActionsOnSave": {
+        "source.fixAll.markdownlint": true,
+        "source.fixAll.eslint": true,
+        "source.fixAll": true,
+        "source.organizeImports": true,
+        "source.addMissingIports": true
+    },
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "jestrunner.debugOptions": {
+        "skipFiles": [
+            "<node_internals>/**"
+        ],
+        "smartStep": true
+    },
+    "jestrunner.jestPath": "node_modules/jest/bin/jest.js",
+    "sonarlint.connectedMode.connections.sonarcloud": [
+        {
+            "organizationKey": "",
+            "token": ""
+        }
+    ],
+    "sonarlint.connectedMode.project": {
+        "projectKey": ""
+    },
+    "sonarlint.rules": {
+        "typescript:S1854": {
+            "level": "off"
+        }
+    },
+    "python.analysis.extraPaths": [
+        "/workspaces/cdk-fargate-gitlab-runner",
+        "/workspaces/cdk-fargate-gitlab-runner/gitlab_ci_fargate_runner",
+        "/workspaces/cdk-fargate-gitlab-runner/task_definitions"
+    ],
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    // "terminal.integrated.defaultLocation": "editor",
+    // "typescript.tsserver.experimental.enableProjectDiagnostics": true,
+    "typescript.inlayHints.parameterTypes.enabled": true,
+    "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+    "typescript.referencesCodeLens.enabled": true,
+    "typescript.implementationsCodeLens.enabled": true,
+    "typescript.updateImportsOnFileMove.enable": "always",
+    "triggerTaskOnSave.tasks": {
+        // "flake8-whole-project": [
+        //     "**/*.*py"
+        // ],
+        // "typescript-lint": [
+        //     "**/*.ts"
+        // ]
+    },
+    "typescript.tsc.autoDetect": "on",
+    "grunt.autoDetect": "off",
+    "jake.autoDetect": "off",
+    "gulp.autoDetect": "off",
+    "npm.autoDetect": "on",
+    "yaml.customTags": [
+        "!And",
+        "!And sequence",
+        "!If",
+        "!If sequence",
+        "!Not",
+        "!Not sequence",
+        "!Equals",
+        "!Equals sequence",
+        "!Or",
+        "!Or sequence",
+        "!FindInMap",
+        "!FindInMap sequence",
+        "!Base64",
+        "!Join",
+        "!Join sequence",
+        "!Cidr",
+        "!Ref",
+        "!Sub",
+        "!Sub sequence",
+        "!GetAtt",
+        "!GetAZs",
+        "!ImportValue",
+        "!ImportValue sequence",
+        "!Select",
+        "!Select sequence",
+        "!Split",
+        "!Split sequence"
+    ],
+    "[typescript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    }
+}

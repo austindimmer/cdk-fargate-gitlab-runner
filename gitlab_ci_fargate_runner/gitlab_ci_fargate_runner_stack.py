@@ -15,20 +15,20 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-import aws_cdk as cdk
-from constructs import Construct
 import sys
-from aws_cdk import (
-    aws_ec2 as ec2,
-    aws_iam as iam,
-    aws_ecs as ecs,
-    aws_s3 as s3,
-    aws_autoscaling as autoscaling,
-    aws_logs as logs,
-    aws_secretsmanager as secretsmanager
 
-)
-from aws_cdk.aws_ecr_assets import DockerImageAsset
+import aws_cdk as cdk
+from aws_cdk import aws_autoscaling as autoscaling
+from aws_cdk import aws_ec2 as ec2
+from aws_cdk import aws_ecr_assets as ecr_assets
+from aws_cdk import aws_ecs as ecs
+from aws_cdk import aws_iam as iam
+from aws_cdk import aws_logs as logs
+from aws_cdk import aws_s3 as s3
+from aws_cdk import aws_secretsmanager as secretsmanager
+from constructs import Construct
+
+# from aws_cdk.aws_ecr_assets import DockerImageAsset
 
 
 class GitlabCiFargateRunnerStack(cdk.Stack):
@@ -166,7 +166,7 @@ class GitlabCiFargateRunnerStack(cdk.Stack):
             )
 
             # Add Fargate task definition
-            gitlab_runner = DockerImageAsset(
+            gitlab_runner = ecr_assets.DockerImageAsset(
                 self,
                 "GitlabRunnerImage",
                 directory="./gitlab_ci_fargate_runner/docker_fargate_driver",

@@ -17,6 +17,8 @@ conda activate gitlab
 
 cd gitlab_ci_fargate_runner
 pipenv install
+pipenv shell
+pip install -r requirements.txt
 # start docker service , it is used to build image
 
 pipenv run cdk synth  --all 

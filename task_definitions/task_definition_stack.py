@@ -15,16 +15,15 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-import aws_cdk as cdk
-from constructs import Construct
-import sys
-from aws_cdk import (
-    aws_iam as iam,
-    aws_ecs as ecs,
-    aws_logs as logs
-)
-from aws_cdk.aws_ecr_assets import DockerImageAsset
 import json
+import sys
+
+import aws_cdk as cdk
+from aws_cdk import aws_ecr_assets as ecr
+from aws_cdk import aws_ecs as ecs
+from aws_cdk import aws_iam as iam
+from aws_cdk import aws_logs as logs
+from constructs import Construct
 from jinja2 import Template
 
 
@@ -74,7 +73,7 @@ class TaskDefinitionStack(cdk.Stack):
             except IOError:
                 print("No task policies template provided.")
             # Add Fargate task definition
-            default_docker_image = DockerImageAsset(
+            default_docker_image = ecr.DockerImageAsset(
                 self,
                 props.get("docker_image_name"),
                 directory=f'./docker_images/{props.get("docker_image_name")}',

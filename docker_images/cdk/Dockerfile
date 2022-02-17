@@ -1,6 +1,8 @@
 # https://github.com/microsoft/vscode-dev-containers/tree/main/containers/python-3-anaconda
 
-FROM continuumio/anaconda3
+# FROM continuumio/anaconda3
+# FROM debian:buster-slim
+FROM ubuntu:20.04
 
 USER root
 
@@ -38,7 +40,7 @@ USER root
 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     # && bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" \
-    && bash /tmp/library-scripts/powershell-debian-alt.sh 2>&1 \
+    # && bash /tmp/library-scripts/powershell-debian-alt.sh 2>&1 \
     # Use Docker script from script library to set things up
     && bash /tmp/library-scripts/github-debian.sh \
     && bash /tmp/library-scripts/terraform-debian.sh 2>&1 \
@@ -69,6 +71,8 @@ ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 RUN node --version
 RUN npm --version
 
+RUN apt-get update
+RUN apt-get install -y python3-pip
 
 RUN pip3 install aws-sam-cli 2>&1
 RUN pip3 install pipenv 2>&1
@@ -86,6 +90,7 @@ RUN npm install -g cdk-dia 2>&1
 RUN rm -rf /tmp/library-scripts
 
 
+RUN apt-get autoclean -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 # [Optional] Uncomment this section to install additional OS packages.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends tree mc graphviz
